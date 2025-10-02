@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📋투두리스트</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="todo-container">
+    <h1>📋TODOLIST</h1>
+
+    <div class="input-area">
+      <input type="text" id="item-input" placeholder="오늘 할 일을 입력하세요" />
+      <button onclick="createItem()">📝추가</button>
+    </div>
+    <ul id="item-list"></ul>
+
+  
+      <form id="doc-upload-form" onsubmit = "return false" style = "display:flex; gap:8px; 
+      align-items : center;">
+      <input type = 'file' id="doc-file" accept = ".pdf, .hwp, .doc, .docx, .txt">
+       <input type="text" id="doc-text" placeholder="또는 간단 텍스트를 입력">
+      <label><input type= "checkbox" id="doc-important">중요</label>
+      <button onclick="uploadProblemDoc()">📤 업로드</button>
+      </form>
+      
+      <div class="toolbar">
+      <button onclick="showImportant()">⭐ 중요 문제 인출</button>
+      <button onclick="render()">🔄 모두 보기</button>
+
+  </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

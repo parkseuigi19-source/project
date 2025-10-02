@@ -1,0 +1,257 @@
+/* 공통 */
+body {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: floralwhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+.todo-container {
+  background: rgb(250, 240, 255);
+  max-width: 1000px;
+  width: 800px;
+  padding: 70px;
+  border-radius: 20px;
+  box-shadow: 0 3px 9px rgba(0,0,0,0.1);
+  border: 2px solid #f83707;
+}
+h1 {
+  text-align: center;
+  color: black;
+  font-size: 27px;
+  margin-bottom: 25px;
+}
+.input-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+  width : 100%;
+}
+input[type="text"] {
+  flex: 1;
+  max-width: none;
+  padding: 14px;
+  border: 3px solid #ccc;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 15px;
+}
+button {
+  padding: 10px 15px;
+  border: none;
+  background-color: rgb(235, 247, 172);
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 7px rgba(0,0,0,0.1);
+  transition: background-color 0.2s;
+}
+button:hover { background-color: rgb(165, 250, 169); }
+ul { flex: 1; list-style: none; padding: 0; margin: 0 0 30px 0; }
+li {
+  background-color: #fff;
+  padding: 13px;
+  border: 4px solid #ddd;
+  margin-top: 3px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  word-break: break-all;
+  width :84%;
+  border-radius : 15px;
+}
+/* li:first-child { border-top-left-radius: 5px; border-top-right-radius: 5px; }
+li:last-child  { border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; } */
+
+.toolbar {
+  margin-top: 32px;
+  padding-top : 20px;
+  border-top : 2px dash #e5e7eb;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* 좌측 컨트롤 */
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.checkbox {
+  appearance: none;
+  width: 18px; height: 18px;
+  border: 2px solid #9ca3af;
+  border-radius: 6px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s;
+}
+.checkbox:checked { background-color: #cae7ff; border-color: #ffdcea; }
+.checkbox:checked::after {
+  content: ''; position: absolute; left: 4px; top: 0px;
+  width: 5px; height: 10px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.star-toggle {
+  border: 2px solid #f59e0b; background: #fff7ed;
+  border-radius: 10px; padding: 2px 8px; font-size: 13px; cursor: pointer;
+}
+
+/* 투두(보라 톤) */
+.todo-item .title { flex: 1; }
+.todo-item.done .title { color: #9ca3af; text-decoration: line-through; }
+.todo-item.important { border-color: #a855f7; background: #faf5ff; }
+.todo-item.important .title { font-weight: 700; color: #7e22ce; }
+.item-buttons button { font-size: 15px; padding: 5px 10px; margin-left: 5px; }
+.item-buttons .edit-btn { background-color: #eed7b9; }
+.item-buttons .edit-btn:hover { background-color: rgb(168, 205, 238); }
+.item-buttons .delete-btn { background-color: rgb(252, 162, 196); }
+.item-buttons .delete-btn:hover { background-color: rgb(176, 253, 253); }
+
+/* 인출문제(노랑 톤) */
+.problem-card {
+  border: 2px solid #f59e0b;
+  background: #fffaf0;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  padding: 14px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  padding-left: 36px;
+  padding-top: 40px; /* 타입 배지 공간 */
+}
+.problem-card .qnum {
+  position: absolute; left: 10px; top: 12px;
+  font-weight: 700; font-size: 15px; color: #b45309;
+}
+
+/* 문제 타입 배지 */
+.problem-type-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 빈칸형 스타일 */
+.problem-card.blank-type {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+.problem-card.blank-type .problem-type-badge {
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+}
+
+/* 서술형 스타일 */
+.problem-card.essay-type {
+  border-color: #8b5cf6;
+  background: #faf5ff;
+}
+.problem-card.essay-type .problem-type-badge {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+}
+
+.problem-card .title {
+  font-weight: 700; 
+  font-size: 16px; 
+  color: #111; 
+  margin-bottom: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* 정답 보기 버튼 */
+.show-answer-btn {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.show-answer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+}
+
+.problem-card .options { 
+  margin: 6px 0 10px 20px; 
+  padding: 0; 
+  list-style: decimal; 
+  color: #333; 
+}
+.problem-card .options li { 
+  margin: 3px 0; 
+  font-size: 14px; 
+}
+.problem-card .answer {
+  margin-top: 12px; 
+  padding: 10px 14px;
+  border-left: 4px solid #10b981; 
+  background: #ecfdf5;
+  font-weight: 600; 
+  color: #065f46; 
+  border-radius: 6px; 
+  font-size: 14px;
+  line-height: 1.6;
+  animation: slideDown 0.3s ease;
+}
+.problem-card .answer small {
+  display: block;
+  margin-top: 8px;
+  color: #6b7280;
+  font-weight: normal;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.problem-card .explain {
+  margin-top: 6px; 
+  padding: 6px 10px;
+  border-left: 4px solid #3b82f6; 
+  background: #eff6ff;
+  color: #1e3a8a; 
+  border-radius: 4px; 
+  font-size: 13px; 
+  line-height: 1.4;
+}
+.problem-card .source, .problem-card .tags {
+  margin-top: 6px; 
+  font-size: 12px; 
+  color: #6b7280;
+}
+.problem-card .source a { 
+  color: #2563eb; 
+  text-decoration: none; 
+}
+.problem-card .source a:hover { 
+  text-decoration: underline; }
