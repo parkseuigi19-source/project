@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+pdfplumber
+python-docx
+mammoth
+pywin32; sys_platform == 'win32'
+python-multipart
+aiofiles

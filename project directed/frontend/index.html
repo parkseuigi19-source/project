@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowTask - 맞춤형 생산성 플랫폼</title>
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Type Selection Screen -->
+    <div id="type-selection-screen">
+        <div class="main-frame" style="text-align: center; padding: 3rem; background: rgba(255,255,255,0.4);">
+            <h1 style="font-size: 3rem; margin-bottom: 2rem;">FlowTask</h1>
+            <p style="color: var(--color-text-muted); margin-bottom: 2rem; font-size: 1.2rem;">당신의 성장에 맞는 관리 방식을 선택하세요
+            </p>
+
+            <div class="type-grid">
+                <div class="glass-card type-card" data-type="student">
+                    <h3>학생</h3>
+                    <p>과목별 목표 관리, 빈칸/서술형 인출 학습</p>
+                </div>
+                <div class="glass-card type-card" data-type="jobseeker">
+                    <h3>취준생</h3>
+                    <p>기업별 전형 관리, 자소서/면접 준비 분생</p>
+                </div>
+                <div class="glass-card type-card" data-type="developer">
+                    <h3>개발자</h3>
+                    <p>프로젝트 단위 관리, 버그 및 이슈 트래킹</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App (Dashboard) -->
+    <div id="app-main" class="app-container main-frame" style="display: none;">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <h2 style="color: var(--color-primary);">FlowTask</h2>
+                <span id="user-type-badge"
+                    style="background: var(--glass-bg); padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; border: 1px solid var(--glass-border);">
+                    <span id="user-type-display">TYPE</span>
+                </span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span>안녕하세요, <strong id="user-name-display">User</strong>님</span>
+                <button onclick="app.auth.logout()"
+                    style="background: none; border: 1px solid var(--glass-border); padding: 0.5rem 1rem; border-radius: 8px; color: var(--color-text-muted); cursor: pointer;">로그아웃</button>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Sidebar -->
+            <aside class="sidebar glass-card">
+                <button class="nav-btn active" data-target="dashboard-section">📊 대시보드</button>
+                <button class="nav-btn" data-target="logs-section">📝 회고/로그</button>
+                <button class="nav-btn" data-target="analysis-section">📈 분석 리포트</button>
+                <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 0.5rem 0;">
+                <button class="nav-btn" data-target="settings-section">⚙️ 설정</button>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="main-content">
+
+                <!-- Goals Section (Dashboard) -->
+                <section id="dashboard-section" class="content-section">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3>목표 관리</h3>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="new-goal-title" placeholder="새 목표 (예: 수학, A기업, 토이프로젝트)">
+                            <button id="btn-add-goal" class="primary-btn">추가</button>
+                        </div>
+                    </div>
+
+                    <div id="goal-list">
+                        <!-- Dynamically populated -->
+                    </div>
+                </section>
+
+                <!-- Logs Section -->
+                <section id="logs-section" class="content-section" style="display: none;">
+                    <h3>회고 / 로그</h3>
+
+                    <!-- Log Input -->
+                    <div class="glass-card" style="margin-bottom: 2rem;">
+                        <textarea id="log-content" placeholder="오늘의 배움, 에러 해결 과정, 감정을 기록하세요..."
+                            style="width: 100%; height: 80px; background: transparent; border: 1px solid var(--glass-border); border-radius: 8px; color: var(--color-text); padding: 1rem; margin-bottom: 1rem; resize: none;"></textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; gap: 10px;">
+                                <label><input type="radio" name="log-type" value="daily" checked> 일상/회고</label>
+                                <label><input type="radio" name="log-type" value="error"> 에러/이슈</label>
+                            </div>
+                            <button class="primary-btn" onclick="app.logs.createLog()">기록하기</button>
+                        </div>
+                    </div>
+
+                    <!-- Log List -->
+                    <div id="log-list" class="log-grid">
+                        <!-- Dynamically populated -->
+                    </div>
+                </section>
+
+                <!-- Analysis Section -->
+                <section id="analysis-section" class="content-section" style="display: none;">
+                    <h3>분석 리포트</h3>
+                    <div class="stats-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                        <div class="glass-card" style="text-align: center;">
+                            <h4 style="color: var(--color-text-muted); margin-bottom: 0.5rem;">총 목표</h4>
+                            <span id="stat-total-goals"
+                                style="font-size: 2rem; font-weight: bold; color: var(--color-primary);">0</span>
+                        </div>
+                        <div class="glass-card" style="text-align: center;">
+                            <h4 style="color: var(--color-text-muted); margin-bottom: 0.5rem;">완료한 할 일</h4>
+                            <span id="stat-completed-todos"
+                                style="font-size: 2rem; font-weight: bold; color: var(--color-success);">0</span>
+                        </div>
+                        <div class="glass-card" style="text-align: center;">
+                            <h4 style="color: var(--color-text-muted); margin-bottom: 0.5rem;">평균 달성률</h4>
+                            <span id="stat-completion-rate"
+                                style="font-size: 2rem; font-weight: bold; color: var(--color-accent);">0%</span>
+                        </div>
+                    </div>
+
+                    <h3>상세 현황</h3>
+                    <div id="analysis-details" class="glass-card">
+                        <p style="text-align: center; color: var(--color-text-muted);">데이터를 불러오는 중...</p>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings-section" class="content-section" style="display: none;">
+                    <h3>설정</h3>
+                    <div class="glass-card" style="max-width: 500px; margin: 0 auto;">
+                        <h4 style="margin-bottom: 1rem;">내 프로필</h4>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: var(--color-text-muted);">사용자
+                                이름</label>
+                            <input type="text" id="settings-username" disabled
+                                style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--color-text-muted);">
+                        </div>
+
+                        <h4 style="margin-bottom: 1rem;">성장 타입 변경</h4>
+                        <div class="type-selection-group"
+                            style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem;">
+                            <label class="radio-card">
+                                <input type="radio" name="settings-type" value="student">
+                                <span class="card-content">
+                                    <strong>학생</strong>
+                                    <small>과목별 목표 관리</small>
+                                </span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="settings-type" value="jobseeker">
+                                <span class="card-content">
+                                    <strong>취준생</strong>
+                                    <small>기업별 전형 관리</small>
+                                </span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="settings-type" value="developer">
+                                <span class="card-content">
+                                    <strong>개발자</strong>
+                                    <small>프로젝트 단위 관리</small>
+                                </span>
+                            </label>
+                        </div>
+
+                        <button class="primary-btn" onclick="app.settings.updateUserType()"
+                            style="width: 100%; padding: 1rem;">저장하기</button>
+                    </div>
+                </section>
+
+                <!-- Footer / Info -->
+                <footer
+                    style="margin-top: 3rem; color: var(--color-text-muted); text-align: center; font-size: 0.9rem;">
+                    FlowTask &copy; 2025
+                </footer>
+
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>
